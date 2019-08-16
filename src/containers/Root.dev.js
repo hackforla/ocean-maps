@@ -3,15 +3,16 @@ import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import App from './App'
-import configureStore from "../store/configureStore";
-import Map from "../components/Map"
 import DevTools from "./DevTools";
-const store = configureStore();
 
-const Root = () => (
+const Root = ({ store }) => (
   <Provider store={store}>
     <React.Fragment>
-      <Map />
+      <Router>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </Router>
       <DevTools />
     </React.Fragment>
   </Provider>

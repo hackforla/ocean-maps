@@ -8,12 +8,11 @@ const store = configureStore();
 
 const Root = () => (
   <Provider store={store}>
-    {/*<Router>*/}
-    {/*  <Switch>*/}
-    {/*    <Route path="/" component={App} />*/}
-    {/*  </Switch>*/}
-    {/*</Router>*/}
-    <App />
+    <Router>
+      <Switch>
+        <Route path="/" component={App} />
+      </Switch>
+    </Router>
   </Provider>
 );
 
