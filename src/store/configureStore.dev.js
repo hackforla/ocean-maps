@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { enhanceReduxMiddleware } from 'kepler.gl/middleware';
-import rootReducer from '../reducers'
+import rootReducer from '../modules'
 import DevTools from '../containers/DevTools'
 
 const middlewares = enhanceReduxMiddleware([thunk, createLogger()]);
@@ -17,7 +17,7 @@ const configureStore = preloadedState => {
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
-    module.hot.accept('../reducers', () => {
+    module.hot.accept('../modules', () => {
       store.replaceReducer(rootReducer)
     })
   }

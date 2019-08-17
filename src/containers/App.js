@@ -1,10 +1,12 @@
 import React from 'react';
-import 'normalize.css';
+
+import Helmet from "../components/Helmet";
 import Map from "../components/Map"
 
 function App() {
   return (
     <div>
+      <Helmet />
       <Map />
     </div>
   );
