@@ -2,17 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
-import App from './App'
-import configureStore from "../store/configureStore";
-const store = configureStore();
+import {Client as Styletron} from 'styletron-engine-atomic';
+import {Provider as StyletronProvider} from 'styletron-react';
+import {LightTheme, BaseProvider} from 'baseui';
+import 'normalize.css';
 
-const Root = () => (
+import App from './App'
+import Login from './Login'
+
+const engine = new Styletron();
+
+const Root = ({ store }) => (
   <Provider store={store}>
-    <Router>
-      <Switch>
-        <Route path="/" component={App} />
-      </Switch>
-    </Router>
+    <StyletronProvider value={engine}>
+      <BaseProvider theme={LightTheme}>
+        <Router>
+          <Switch>
+            <Route path="/" exact component={App} />
+            <Route path="/login" exact component={Login} />
+          </Switch>
+        </Router>
+      </BaseProvider>
+    </StyletronProvider>
   </Provider>
 );
 

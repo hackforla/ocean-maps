@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import rootReducer from '../reducers'
+import rootReducer from '../modules'
 import { enhanceReduxMiddleware } from 'kepler.gl/middleware';
 
 const middlewares = enhanceReduxMiddleware([thunk]);
