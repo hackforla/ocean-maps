@@ -87,4 +87,10 @@ const Login = ({ login }) => (
   </Layout>
 );
 
-export default connect(()=> {}, { login })(Login);
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = ({
+  login
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
