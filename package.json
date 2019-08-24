@@ -24,6 +24,7 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.5.2",
+    "sockjs-client": "^1.4.0",
     "styled-components": "^4.3.2",
     "styletron-engine-atomic": "^1.4.0",
     "styletron-react": "^5.2.0",

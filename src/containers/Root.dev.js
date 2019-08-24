@@ -7,6 +7,7 @@ import {Provider as StyletronProvider} from 'styletron-react';
 import {LightTheme, BaseProvider} from 'baseui';
 import 'normalize.css';
 
+import PrivateRoute from "../components/PrivateRoute";
 import App from './App'
 import Login from './Login'
 import DevTools from "./DevTools";
@@ -20,7 +21,7 @@ const Root = ({ store }) => (
         <React.Fragment>
           <Router>
             <Switch>
-              <Route path="/" exact component={App} />
+              <PrivateRoute path="/" exact component={App} />
               <Route path="/login" exact component={Login} />
             </Switch>
           </Router>
