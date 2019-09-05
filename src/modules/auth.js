@@ -24,7 +24,6 @@ export const login = (email, password) => (dispatch) => {
     audience: 'https://ai-on-the-beach.auth0.com/api/v2',
     // scope: 'read:order write:order'
   }, (result, error) => {
-    console.log(result, error);
     if (error) {
       dispatch({
         type: LOGIN_REJECTED,

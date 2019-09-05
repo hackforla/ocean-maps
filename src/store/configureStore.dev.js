@@ -4,8 +4,9 @@ import { createLogger } from 'redux-logger'
 import { enhanceReduxMiddleware } from 'kepler.gl/middleware';
 import rootReducer from '../modules'
 import DevTools from '../containers/DevTools'
+import { middleware } from "../modules/websockets";
 
-const middlewares = enhanceReduxMiddleware([thunk, createLogger()]);
+const middlewares = enhanceReduxMiddleware([thunk, createLogger(), middleware]);
 const enhancers = [applyMiddleware(...middlewares)];
 
 const configureStore = preloadedState => {

@@ -3,11 +3,8 @@ import { render } from 'react-dom'
 import Root from './containers/Root'
 import configureStore from './store/configureStore'
 import * as serviceWorker from './serviceWorker';
-import websocketsInit from "./websockets";
 
 const store = configureStore();
-
-websocketsInit(store);
 
 render(
   <div>

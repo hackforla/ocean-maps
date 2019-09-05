@@ -1,34 +1,76 @@
-import SockJS from "sockjs-client";
+import { addDataToMap } from "kepler.gl/actions"
 
-const websocket = null;
+const OPEN = 'WEBSOCKET:OPEN';
+const CONNECT = 'WEBSOCKET:CONNECT';
+const CLOSE = 'WEBSOCKET:CLOSE';
+const MESSAGE = 'WEBSOCKET:MESSAGE';
+const SEND = 'WEBSOCKET:SEND';
+const DISCONNECT = 'WEBSOCKET:DISCONNECT';
+
+let ws;
 
 export const middleware = store => next => action => {
   switch (action.type) {
     // User request to connect
-    case 'WEBSOCKET:CONNECT':
+    case CONNECT:
       // Configure the object
-      var sock = new SockJS('https://mydomain.com/my_prefix');
+      ws = new WebSocket(action.payload.url);
 
       // Attach the callbacks
-      websocket.onopen = () => dispatch({ type: 'WEBSOCKET:OPEN' });
-      websocket.onclose = (event) => dispatch({ type: 'WEBSOCKET:CLOSE', payload: event });
-      websocket.onmessage = (event) => dispatch({ type: 'WEBSOCKET:MESSAGE', payload: event });
+      ws.onopen = () => store.dispatch({ type: OPEN });
+      ws.onclose = (event) => store.dispatch({ type: CLOSE, payload: action.payload.url });
+      ws.onmessage = (event) => {
+        store.dispatch(addDataToMap({
+            datasets: [
+              {
+                data: {
+                  fields: JSON.parse(event.data).schema.fields,
+                  rows: JSON.parse(event.data).data.map(row => Object.values(row)),
+                }
+              }
+            ]
+          })
+        );
+      };
 
       break;
 
     // User request to send a message
-    case 'WEBSOCKET:SEND':
-      websocket.send(JSON.stringify(action.payload));
+    case SEND:
+      ws.send(JSON.stringify(action.payload));
       break;
 
     // User request to disconnect
-    case 'WEBSOCKET:DISCONNECT':
-      websocket.close();
+    case DISCONNECT:
+      ws.close();
       break;
 
-    default: // We don't really need the default but ...
+    default:
       break;
   }
 
   return next(action);
 };
+
+export const connectWebsocket = (url = process.env.REACT_APP_WEBSOCKET_URL) => ({
+  type: CONNECT,
+  payload: { url }
+});
+
+export const sendMessage = message => ({
+  type: SEND,
+  payload: message
+});
+
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case MESSAGE:
+      // Assuming that your data is a DOMString in JSON format
+      const data = JSON.parse(action.payload.data);
+      return { ...state, ...data};
+    default:
+      return state
+  }
+};
+
+export default reducer;
