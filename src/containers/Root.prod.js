@@ -19,7 +19,7 @@ const Root = ({ store }) => (
       <BaseProvider theme={LightTheme}>
         <Router>
           <Switch>
-            <PrivateRoute path="/" exact component={App} />
+            <Route path="/" exact component={App} />
             <Route path="/login" exact component={Login} />
           </Switch>
         </Router>

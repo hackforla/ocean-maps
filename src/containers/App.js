@@ -6,9 +6,9 @@ import Map from "../components/Map"
 import { connectWebsocket, sendMessage } from "../modules/websockets";
 
 class App extends React.Component {
-  componentDidMount() {
+  async componentDidMount() {
     this.props.connectWebsocket();
-    window.sendData = this.props.sendMessage
+    // this.props.sendMessage("")
   }
 
   render() {
