@@ -7,6 +7,16 @@ const MESSAGE = 'WEBSOCKET:MESSAGE';
 const SEND = 'WEBSOCKET:SEND';
 const DISCONNECT = 'WEBSOCKET:DISCONNECT';
 
+export const connectWebsocket = (url = process.env.REACT_APP_WEBSOCKET_URL) => ({
+  type: CONNECT,
+  payload: { url }
+});
+
+export const sendMessage = message => ({
+  type: SEND,
+  payload: message
+});
+
 let ws;
 
 export const middleware = store => next => action => {
@@ -17,7 +27,10 @@ export const middleware = store => next => action => {
       ws = new WebSocket(action.payload.url);
 
       // Attach the callbacks
-      ws.onopen = () => store.dispatch({ type: OPEN });
+      ws.onopen = () => {
+        store.dispatch({ type: OPEN });
+        store.dispatch(sendMessage(""))
+      };
       ws.onclose = (event) => store.dispatch({ type: CLOSE, payload: action.payload.url });
       ws.onmessage = (event) => {
         store.dispatch(addDataToMap({
@@ -51,16 +64,6 @@ export const middleware = store => next => action => {
 
   return next(action);
 };
-
-export const connectWebsocket = (url = process.env.REACT_APP_WEBSOCKET_URL) => ({
-  type: CONNECT,
-  payload: { url }
-});
-
-export const sendMessage = message => ({
-  type: SEND,
-  payload: message
-});
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
